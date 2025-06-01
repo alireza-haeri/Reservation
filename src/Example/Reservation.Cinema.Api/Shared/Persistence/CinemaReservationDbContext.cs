@@ -5,28 +5,33 @@ namespace Reservation.Cinema.Api.Shared.Persistence;
 
 public class CinemaReservationDbContext(DbContextOptions<CinemaReservationDbContext> options) : DbContext(options)
 {
+    public DbSet<CinemaHall> CinemaHalls { get; set; }
     public DbSet<Seat> Seats { get; set; }
     public DbSet<SeatReservation> SeatReservations { get; set; }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<Seat>(seatBuilder =>
+        modelBuilder.Entity<CinemaHall>(hallBuilder =>
         {
-            seatBuilder.HasKey(seat => seat.Id);
-            seatBuilder.Property(seat => seat.Name).HasMaxLength(50).IsUnicode().IsRequired();
+            hallBuilder.HasKey(h => h.Id);
+            hallBuilder.Property(h => h.Name).HasMaxLength(100).IsRequired();
 
-            seatBuilder.HasMany(s => s.SeatReservations).WithOne(sr => sr.Seat).HasForeignKey(sr => sr.SeatId);
-        });
+            hallBuilder.OwnsMany(h => h.Seats, seatBuilder =>
+            {
+                seatBuilder.HasKey(seat => seat.Id);
+                seatBuilder.Property(seat => seat.Name).HasMaxLength(50).IsUnicode().IsRequired();
 
-        modelBuilder.Entity<SeatReservation>(seatReservation =>
-        {
-            seatReservation.HasKey(sr => sr.Id);
-            seatReservation.HasKey(sr => new { sr.SeatId, sr.From, sr.To });
-            
-            seatReservation.Property(sr=>sr.From).IsRequired();
-            seatReservation.Property(sr=>sr.To).IsRequired();
+                seatBuilder.OwnsMany(s => s.SeatReservations, seatReservationBuilder =>
+                {
+                    seatReservationBuilder.HasKey(sr => sr.Id);
+                    seatReservationBuilder.HasKey(sr => new { sr.SeatId, sr.From, sr.To });
+
+                    seatReservationBuilder.Property(sr => sr.From).IsRequired();
+                    seatReservationBuilder.Property(sr => sr.To).IsRequired();
+                });
+            });
         });
     }
 }
