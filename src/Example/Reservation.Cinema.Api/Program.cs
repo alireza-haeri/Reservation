@@ -1,3 +1,4 @@
+using Reservation.Cinema.Api.Endpoints;
 using Reservation.Cinema.Api.Shared.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,6 @@ builder
 
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+app.MapCinemaHallEndpoints();
 
 app.Run();
