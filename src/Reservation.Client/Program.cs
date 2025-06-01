@@ -1,11 +1,13 @@
 ﻿const string endpoint = "https://localhost:7073";
-const int requestCount = 1000;
+
+Console.WriteLine("please write a number of request!");
+int requestCount = int.Parse(Console.ReadLine()!);
 
 var client = new HttpClient();
 client.BaseAddress = new Uri(endpoint);
 
-var responses =Enumerable.Range(0, requestCount)
-    .Select(async (e)=> await SendRequestAsync(client, e.ToString()))
+var responses = Enumerable.Range(0, requestCount)
+    .Select(async (e) => await SendRequestAsync(client, e.ToString()))
     .ToList();
 
 await Task.WhenAll(responses);
