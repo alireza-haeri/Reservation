@@ -6,6 +6,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{83C87D46-2A9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reservation.Client", "src\Reservation.Client\Reservation.Client.csproj", "{521464D2-E156-435E-A3E0-68431613E66B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Example", "Example", "{4996F8BE-6E1F-4FA1-91D9-44DC9B45A966}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reservation.Cinema.Api", "src\Example\Reservation.Cinema.Api\Reservation.Cinema.Api.csproj", "{A3B72E4D-66E8-4329-9B99-56074D955B44}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,9 +24,15 @@ Global
 		{521464D2-E156-435E-A3E0-68431613E66B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{521464D2-E156-435E-A3E0-68431613E66B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{521464D2-E156-435E-A3E0-68431613E66B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3B72E4D-66E8-4329-9B99-56074D955B44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3B72E4D-66E8-4329-9B99-56074D955B44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3B72E4D-66E8-4329-9B99-56074D955B44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3B72E4D-66E8-4329-9B99-56074D955B44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C2CEBFDA-9FC6-4220-936F-22E2CEDD82B4} = {83C87D46-2A94-4613-8D21-D7798C091DF4}
 		{521464D2-E156-435E-A3E0-68431613E66B} = {83C87D46-2A94-4613-8D21-D7798C091DF4}
+		{4996F8BE-6E1F-4FA1-91D9-44DC9B45A966} = {83C87D46-2A94-4613-8D21-D7798C091DF4}
+		{A3B72E4D-66E8-4329-9B99-56074D955B44} = {4996F8BE-6E1F-4FA1-91D9-44DC9B45A966}
 	EndGlobalSection
 EndGlobal
