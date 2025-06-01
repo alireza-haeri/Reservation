@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reservation.Api", "src\Rese
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{83C87D46-2A94-4613-8D21-D7798C091DF4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reservation.Client", "src\Reservation.Client\Reservation.Client.csproj", "{521464D2-E156-435E-A3E0-68431613E66B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,8 +16,13 @@ Global
 		{C2CEBFDA-9FC6-4220-936F-22E2CEDD82B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2CEBFDA-9FC6-4220-936F-22E2CEDD82B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2CEBFDA-9FC6-4220-936F-22E2CEDD82B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{521464D2-E156-435E-A3E0-68431613E66B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{521464D2-E156-435E-A3E0-68431613E66B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{521464D2-E156-435E-A3E0-68431613E66B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{521464D2-E156-435E-A3E0-68431613E66B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C2CEBFDA-9FC6-4220-936F-22E2CEDD82B4} = {83C87D46-2A94-4613-8D21-D7798C091DF4}
+		{521464D2-E156-435E-A3E0-68431613E66B} = {83C87D46-2A94-4613-8D21-D7798C091DF4}
 	EndGlobalSection
 EndGlobal
