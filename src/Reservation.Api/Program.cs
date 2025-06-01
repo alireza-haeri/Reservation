@@ -11,7 +11,7 @@ builder
 
 var app = builder.Build();
 
-app.MapGet("/", async (ReservationDbContext context, RedLockFactory redLockFactory) =>
+app.MapGet("/counter-red-lock", async (ReservationDbContext context, RedLockFactory redLockFactory) =>
 {
     const string lockResourceName = "counter:1:lock";
     var expireTime = TimeSpan.FromSeconds(20);
@@ -30,6 +30,32 @@ app.MapGet("/", async (ReservationDbContext context, RedLockFactory redLockFacto
     await context.SaveChangesAsync();
         
     return Results.Json(counter);
+});
+
+app.MapGet("/counter-db", async (ReservationDbContext context) =>
+{
+    await using var transaction = await context.Database.BeginTransactionAsync();
+    
+    try
+    {
+        var counter = await context.Counters
+            .FromSqlRaw("SELECT * FROM Counters WITH (ROWLOCK, UPDLOCK) WHERE Id={0}", 1)
+            .FirstOrDefaultAsync();
+
+        counter!.Increment();
+
+        await context.SaveChangesAsync();
+        await transaction.CommitAsync();
+
+        return Results.Json(counter);
+    }
+    catch (Exception e)
+    {
+        await transaction.RollbackAsync();
+        Console.WriteLine(e);
+    }
+
+    return Results.BadRequest();
 });
 
 app.Run();

@@ -1,4 +1,13 @@
-﻿const string endpoint = "https://localhost:7073";
+﻿string endpoint = "https://localhost:7073";
+
+Console.WriteLine("Please write 1 ro 2, 1: redis locker - 2: db locker");
+var lockerType = int.Parse(Console.ReadLine()!);
+endpoint += lockerType switch
+{
+    1 => "/counter-red-lock",
+    2 => "/counter-db",
+    _ => throw new ArgumentOutOfRangeException()
+};
 
 Console.WriteLine("please write a number of request!");
 int requestCount = int.Parse(Console.ReadLine()!);
