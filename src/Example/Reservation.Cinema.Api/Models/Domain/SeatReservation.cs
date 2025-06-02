@@ -9,4 +9,13 @@ public class SeatReservation
     //seat
     public int SeatId { get; set; }
     public Seat Seat { get; set; } = null!;
+
+    public static SeatReservation
+        Create(int seatId, DateTime from, DateTime to) =>
+        new()
+        {
+            SeatId = seatId,
+            From = from,
+            To = to
+        };
 }

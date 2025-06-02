@@ -1,30 +1,51 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Reservation.Cinema.Api.Models.Domain;
 using Reservation.Cinema.Api.Shared.Persistence;
+using static Reservation.Cinema.Api.Endpoints.CinemaHallDtoTypes;
 
 namespace Reservation.Cinema.Api.Endpoints
 {
     public static class SeatReservationEndpoints
     {
-        public static void MapSeatReservationEndpoints(this IEndpointRouteBuilder routes)
+        public static WebApplication MapSeatReservationEndpoints(this WebApplication app)
         {
-            routes.MapGet("/seatreservations", async (CinemaReservationDbContext db) =>
-                await db.SeatReservations.Include(r => r.Seat).ToListAsync()
-            );
-
-            routes.MapGet("/seatreservations/{id}", async (int id, CinemaReservationDbContext db) =>
-                await db.SeatReservations.Include(r => r.Seat).FirstOrDefaultAsync(r => r.Id == id)
-                    is { } reservation ? Results.Ok(reservation) : Results.NotFound()
-            );
-
-            routes.MapPost("/seatreservations", async (SeatReservation reservation, CinemaReservationDbContext db) =>
+            var seatReservationGroup = app.MapGroup("SeatReservation").WithTags("SeatReservation");
+            
+            seatReservationGroup.MapGet("/seatreservations", async (CinemaReservationDbContext db) =>
             {
-                db.SeatReservations.Add(reservation);
-                await db.SaveChangesAsync();
-                return Results.Created($"/seatreservations/{reservation.Id}", reservation);
+                var reservations = await db.SeatReservations.Include(r => r.Seat)
+                    .Select(r => new SeatReservationDto
+                    {
+                        Id = r.Id,
+                        From = r.From,
+                        To = r.To
+                    })
+                    .ToListAsync();
+                return Results.Ok(reservations);
             });
 
-            routes.MapPut("/seatreservations/{id}", async (int id, SeatReservation input, CinemaReservationDbContext db) =>
+            seatReservationGroup.MapGet("/seatreservations/{id}", async (int id, CinemaReservationDbContext db) =>
+            {
+                var reservation = await db.SeatReservations.Include(r => r.Seat)
+                    .Select(r => new SeatReservationDto
+                    {
+                        Id = r.Id,
+                        From = r.From,
+                        To = r.To
+                    })
+                    .FirstOrDefaultAsync(r => r.Id == id);
+                return reservation is not null ? Results.Ok(reservation) : Results.NotFound();
+            });
+
+            seatReservationGroup.MapPost("/seatreservations", async (CreateSeatReservationRequest request, CinemaReservationDbContext db) =>
+            {
+                var seatReservation = SeatReservation.Create(request.SeatId, request.From, request.To);
+                db.SeatReservations.Add(seatReservation);
+                await db.SaveChangesAsync();
+                return Results.Created($"/seatreservations/{seatReservation.Id}", request);
+            });
+
+            seatReservationGroup.MapPut("/seatreservations/{id}", async (int id, SeatReservation input, CinemaReservationDbContext db) =>
             {
                 var reservation = await db.SeatReservations.FindAsync(id);
                 if (reservation is null) return Results.NotFound();
@@ -35,7 +56,7 @@ namespace Reservation.Cinema.Api.Endpoints
                 return Results.NoContent();
             });
 
-            routes.MapDelete("/seatreservations/{id}", async (int id, CinemaReservationDbContext db) =>
+            seatReservationGroup.MapDelete("/seatreservations/{id}", async (int id, CinemaReservationDbContext db) =>
             {
                 var reservation = await db.SeatReservations.FindAsync(id);
                 if (reservation is null) return Results.NotFound();
@@ -43,6 +64,10 @@ namespace Reservation.Cinema.Api.Endpoints
                 await db.SaveChangesAsync();
                 return Results.NoContent();
             });
+
+            return app;
         }
     }
+
+    public record CreateSeatReservationRequest(int SeatId, DateTime From, DateTime To);
 }

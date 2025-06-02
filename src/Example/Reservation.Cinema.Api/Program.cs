@@ -14,6 +14,9 @@ var app = builder.Build();
 app.MapOpenApi();
 app.MapScalarApiReference();
 
-app.MapCinemaHallEndpoints();
+app
+    .MapCinemaHallEndpoints()
+    .MapSeatEndpoints()
+    .MapSeatReservationEndpoints();
 
 app.Run();

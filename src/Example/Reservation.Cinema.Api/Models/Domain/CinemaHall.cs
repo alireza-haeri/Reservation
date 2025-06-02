@@ -6,4 +6,10 @@ public class CinemaHall
     public string Name { get; set; } = null!;
     
     public ICollection<Seat> Seats { get; set; } = null!;
+
+    public static CinemaHall Create(string name) =>
+        new()
+        {
+            Name = name
+        };
 }

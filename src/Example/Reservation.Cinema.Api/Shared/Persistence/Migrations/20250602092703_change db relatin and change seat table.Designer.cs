@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Reservation.Cinema.Api.Shared.Persistence;
 
@@ -11,9 +12,11 @@ using Reservation.Cinema.Api.Shared.Persistence;
 namespace Reservation.Cinema.Api.Shared.Persistence.Migrations
 {
     [DbContext(typeof(CinemaReservationDbContext))]
-    partial class CinemaReservationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250602092703_change db relatin and change seat table")]
+    partial class changedbrelatinandchangeseattable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

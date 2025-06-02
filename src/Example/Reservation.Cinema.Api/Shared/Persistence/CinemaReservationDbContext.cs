@@ -17,21 +17,19 @@ public class CinemaReservationDbContext(DbContextOptions<CinemaReservationDbCont
         {
             hallBuilder.HasKey(h => h.Id);
             hallBuilder.Property(h => h.Name).HasMaxLength(100).IsRequired();
+        });
+        modelBuilder.Entity<Seat>(seatBuilder =>
+        {
+            seatBuilder.HasKey(seat => seat.Id);
+            seatBuilder.Property(seat => seat.Name).HasMaxLength(50).IsUnicode().IsRequired();
+        });
+        modelBuilder.Entity<SeatReservation>(seatReservationBuilder =>
+        {
+            seatReservationBuilder.HasKey(sr => sr.Id);
+            seatReservationBuilder.HasKey(sr => new { sr.SeatId, sr.From, sr.To });
 
-            hallBuilder.OwnsMany(h => h.Seats, seatBuilder =>
-            {
-                seatBuilder.HasKey(seat => seat.Id);
-                seatBuilder.Property(seat => seat.Name).HasMaxLength(50).IsUnicode().IsRequired();
-
-                seatBuilder.OwnsMany(s => s.SeatReservations, seatReservationBuilder =>
-                {
-                    seatReservationBuilder.HasKey(sr => sr.Id);
-                    seatReservationBuilder.HasKey(sr => new { sr.SeatId, sr.From, sr.To });
-
-                    seatReservationBuilder.Property(sr => sr.From).IsRequired();
-                    seatReservationBuilder.Property(sr => sr.To).IsRequired();
-                });
-            });
+            seatReservationBuilder.Property(sr => sr.From).IsRequired();
+            seatReservationBuilder.Property(sr => sr.To).IsRequired();
         });
     }
 }
