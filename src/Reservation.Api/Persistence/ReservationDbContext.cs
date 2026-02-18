@@ -1,0 +1,23 @@
+using Microsoft.EntityFrameworkCore;
+using Reservation.Api.Models;
+using Reservation.Api.Persistence.ModelsConfigurations;
+
+namespace Reservation.Api.Persistence;
+
+public class ReservationDbContext : DbContext
+{
+    public DbSet<Cinema> Cinemas { get; set; }
+    public DbSet<Movie> Movies { get; set; }
+    public DbSet<Models.Reservation> Reservations { get; set; }
+    public DbSet<ShowTime> ShowTimes { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.ApplyConfiguration(new CinemaConfiguration());
+        modelBuilder.ApplyConfiguration(new MovieConfiguration());
+        modelBuilder.ApplyConfiguration(new ReservationConfiguration());
+        modelBuilder.ApplyConfiguration(new ShowTimeConfiguration());
+    }
+}

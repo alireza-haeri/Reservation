@@ -2,9 +2,13 @@ namespace Reservation.Api.Models;
 
 public class Reservation
 {
-    public int Id { get; set; }
-    public int ShowtimeId { get; set; }
-    public List<int> SeatIds { get; set; } = new();
-    public string CustomerName { get; set; } = string.Empty;
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public const string  TableName = "Reservation";
+    
+    public int Id { get; private set; }
+    public int ShowtimeId { get; private set; }
+    public List<int> SeatIds { get; private set; } = new();
+    public string CustomerName { get; private set; } = string.Empty;
+    public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
+
+    public ShowTime ShowTime { get; private set; } = new();
 }
