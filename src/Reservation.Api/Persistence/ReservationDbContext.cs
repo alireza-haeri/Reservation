@@ -10,8 +10,7 @@ public class ReservationDbContext(DbContextOptions<ReservationDbContext> options
     public DbSet<Movie> Movies { get; set; }
     public DbSet<Models.Reservation> Reservations { get; set; }
     public DbSet<ShowTime> ShowTimes { get; set; }
-
-    // screens and seats
+    public DbSet<User> Users { get; set; }
     public DbSet<Screen> Screens { get; set; }
     public DbSet<Seat> Seats { get; set; }
     public DbSet<ReservationSeat> ReservationSeats { get; set; }
@@ -26,5 +25,6 @@ public class ReservationDbContext(DbContextOptions<ReservationDbContext> options
         modelBuilder.ApplyConfiguration(new MovieConfiguration());
         modelBuilder.ApplyConfiguration(new ReservationConfiguration());
         modelBuilder.ApplyConfiguration(new ShowTimeConfiguration());
+        modelBuilder.ApplyConfiguration(new UserConfigurations());
     }
 }

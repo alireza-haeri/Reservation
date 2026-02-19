@@ -23,9 +23,11 @@ var app = builder.Build();
 app.UseRouting();
 
 // Map domain endpoints
-app.MapCinemaEndpoints();
-app.MapScreenEndpoints();
-app.MapSeatEndpoints();
+app
+    .MapCinemaEndpoints() 
+    .MapScreenEndpoints()
+    .MapSeatEndpoints()
+    .MapUserEndpoints();
 
 // Swagger middleware
 app.UseSwagger();
