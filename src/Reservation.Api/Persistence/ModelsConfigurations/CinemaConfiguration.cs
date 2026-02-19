@@ -13,5 +13,9 @@ public class CinemaConfiguration : IEntityTypeConfiguration<Cinema>
         builder.HasKey(c => c.Id);
         builder.Property(c => c.Name).IsRequired().HasMaxLength(50);
         builder.Property(c=>c.Address).IsRequired(false).HasMaxLength(200);
+        // Cinema -> Screens
+        builder.HasMany(c => c.Screens)
+               .WithOne()
+               .HasForeignKey(s => s.CinemaId);
     }
 }

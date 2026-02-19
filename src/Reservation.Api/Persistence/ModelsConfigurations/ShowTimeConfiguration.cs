@@ -14,6 +14,7 @@ public class ShowTimeConfiguration : IEntityTypeConfiguration<ShowTime>
 
         builder.HasOne(c => c.Cinema).WithMany().HasForeignKey(c => c.CinemaId);
         builder.HasOne(c => c.Movie).WithMany().HasForeignKey(c => c.MovieId);
+        builder.HasOne(c => c.Screen).WithMany().HasForeignKey(c => c.ScreenId);
 
     }
 }

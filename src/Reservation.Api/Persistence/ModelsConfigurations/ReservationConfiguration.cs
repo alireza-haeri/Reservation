@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,16 +8,17 @@ public class ReservationConfiguration : IEntityTypeConfiguration<Models.Reservat
     public void Configure(EntityTypeBuilder<Models.Reservation> builder)
     {
         builder.ToTable(Models.Reservation.TableName);
-        builder.HasKey(c=>c.Id);
-        builder.Property(c=>c.CustomerName).IsRequired().HasMaxLength(100);
-        builder.Property(x => x.SeatIds)
-            .HasConversion(
-                v => JsonSerializer.Serialize(v),
-                v => JsonSerializer.Deserialize<List<int>>(v) ?? new ()
-            )
-            .HasColumnType("TEXT");
+        builder.HasKey(c => c.Id);
+        builder.Property(c => c.CustomerName).IsRequired().HasMaxLength(100);
 
-        builder.HasOne(c => c.ShowTime).WithMany().HasForeignKey(c=>c.ShowtimeId);
+        // FK to ShowTime
+        builder.HasOne(c => c.ShowTime)
+               .WithMany()
+               .HasForeignKey(c => c.ShowTimeId);
 
+        // Reservation -> ReservationSeat (normalized seat mapping)
+        builder.HasMany(r => r.ReservationSeats)
+               .WithOne(rs => rs.Reservation)
+               .HasForeignKey(rs => rs.ReservationId);
     }
 }
