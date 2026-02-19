@@ -24,9 +24,10 @@ app.UseRouting();
 
 // Map domain endpoints
 app
-    .MapCinemaEndpoints() 
+    .MapCinemaEndpoints()
     .MapScreenEndpoints()
     .MapSeatEndpoints()
+    .MapMovieEndpoints()
     .MapUserEndpoints();
 
 // Swagger middleware
