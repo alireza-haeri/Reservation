@@ -12,7 +12,6 @@ public class ShowTimeConfiguration : IEntityTypeConfiguration<ShowTime>
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Price).HasColumnType("decimal(18,2)");
 
-        builder.HasOne(c => c.Cinema).WithMany().HasForeignKey(c => c.CinemaId);
         builder.HasOne(c => c.Movie).WithMany().HasForeignKey(c => c.MovieId);
         builder.HasOne(c => c.Screen).WithMany().HasForeignKey(c => c.ScreenId);
 

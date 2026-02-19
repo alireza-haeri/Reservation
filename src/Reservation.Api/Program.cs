@@ -28,6 +28,7 @@ app
     .MapScreenEndpoints()
     .MapSeatEndpoints()
     .MapMovieEndpoints()
+    .MapShowTimeEndpoints()
     .MapUserEndpoints();
 
 // Swagger middleware
