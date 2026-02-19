@@ -4,7 +4,7 @@ using Reservation.Api.Persistence.ModelsConfigurations;
 
 namespace Reservation.Api.Persistence;
 
-public class ReservationDbContext : DbContext
+public class ReservationDbContext(DbContextOptions<ReservationDbContext> options) : DbContext(options)
 {
     public DbSet<Cinema> Cinemas { get; set; }
     public DbSet<Movie> Movies { get; set; }

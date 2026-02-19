@@ -1,10 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Reservation.Api.Persistence;
+using Reservation.Api.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<ReservationSettings>(builder.Configuration);
-var settings = builder.Services.BuildServiceProvider().GetRequiredService<ReservationSettings>() ??
+var settings = builder.Services.BuildServiceProvider().GetRequiredService<IOptions<ReservationSettings>>().Value ??
                throw new ArgumentNullException(nameof(ReservationSettings));
 
 builder.Services.AddDbContext<ReservationDbContext>(options =>
@@ -12,8 +14,21 @@ builder.Services.AddDbContext<ReservationDbContext>(options =>
     options.UseSqlite(settings.Database.ConnectionString);
 });
 
+// Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+app.UseRouting();
+
+// Map domain endpoints
+app.MapCinemaEndpoints();
+app.MapScreenEndpoints();
+app.MapSeatEndpoints();
+
+// Swagger middleware
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.Run();
